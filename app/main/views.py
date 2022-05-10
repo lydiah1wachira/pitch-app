@@ -11,7 +11,3 @@ def index():
 
   return render_template('index.html', title=title)
 
-@main.route()
-@login_required
-def General():
-  ''''''
