@@ -4,7 +4,9 @@ class Config:
   '''
   General configuration parent class
   '''
-  
+  SECRET_KEY = os.environ.get('SECRET_KEY')
+
+
   @staticmethod
   def init_app(app):
         pass
@@ -17,7 +19,7 @@ class ProdConfig(Config):
         Config: The parent configuration class with General configuration settings
     '''
     pass
-  
+
 class DevConfig(Config):
     '''
     Development  configuration child class
