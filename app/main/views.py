@@ -1,5 +1,6 @@
 from flask import render_template
 from . import main
+from flask_login import login_required
 
 @main.route('/')
 def index():
@@ -9,3 +10,8 @@ def index():
   title = 'One-Minute Pitch'
 
   return render_template('index.html', title=title)
+
+@main.route()
+@login_required
+def General():
+  ''''''
