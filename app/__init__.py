@@ -1,4 +1,7 @@
 from flask import Flask
 
-#Initializing application
-app = Flask(__name__)
+
+def create_app(congig_name):
+  app = Flask(__name__)
+
+
