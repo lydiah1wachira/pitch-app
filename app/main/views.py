@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from flask_login import login_required
-from ..models import User
+from flask_login import login_required, current_user
+from ..models import User, Pitch
 from .forms import UpdateProfile
 from .. import db,photos
 
@@ -55,10 +55,16 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
+
 @main.route('/general')
 @login_required
 def general():
     '''
     General page function that returns the page containing general pitches.
     '''
-    
+    pitches = Pitch.query.all()
+    pitch = Pitch.query.filter_by(category='General').all()
+
+    return render_template('general.html', pitch=pitch, title='General Pitches', pitches=pitches)
+
+
