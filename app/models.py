@@ -38,7 +38,7 @@ class User(UserMixin,db.Model):
 
     
 class Pitch(db.Model):
-    __tablename__ = 'pitches'
+    __tablename__ = 'pitch'
 
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
@@ -59,7 +59,7 @@ class Comment(db.Model):
     __tablename__ = 'comment'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False) 
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
     comment = db.Column(db.String(100))
 
@@ -71,7 +71,7 @@ class Upvote(db.Model):
     __tablename__ = 'upvotes'
 
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
+    author = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
      
 class Downvote(db.Model):
@@ -79,6 +79,6 @@ class Downvote(db.Model):
     __tablename__ = 'downvotes'
 
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
+    author = db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False) 
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
    
