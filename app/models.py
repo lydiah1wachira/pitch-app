@@ -45,6 +45,9 @@ class Pitch(db.Model):
     content = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(255), index = True,nullable = False)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
+    comment =  db.relationship('Comment',backref='pitch',lazy='dynamic')
+    upvotes =  db.relationship('Like',backref='pitch',lazy='dynamic')
+    downvotes =  db.relationship('Dislike',backref='pitch',lazy='dynamic')
 
 def __repr__(self):
       return f"User({self.content},{self.datePosted})"
@@ -52,6 +55,9 @@ def __repr__(self):
 
 
 class Comment(db.Model):
+
+    __tablename__ = 'comment'
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
@@ -60,12 +66,18 @@ class Comment(db.Model):
 def __repr__(self):
     return f'User({self.comment})' 
 
-class Upvote(db.model):
+class Upvote(db.Model):
+
+    __tablename__ = 'upvotes'
+
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
      
-class Downvote(db.Mode):
+class Downvote(db.Model):
+
+    __tablename__ = 'downvotes'
+
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
