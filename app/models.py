@@ -46,8 +46,8 @@ class Pitch(db.Model):
     category = db.Column(db.String(255), index = True,nullable = False)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     comment =  db.relationship('Comment',backref='pitch',lazy='dynamic')
-    upvotes =  db.relationship('Like',backref='pitch',lazy='dynamic')
-    downvotes =  db.relationship('Dislike',backref='pitch',lazy='dynamic')
+    upvotes =  db.relationship('Upvote',backref='pitch',lazy='dynamic')
+    downvotes =  db.relationship('Downvote',backref='pitch',lazy='dynamic')
 
 def __repr__(self):
       return f"User({self.content},{self.datePosted})"
