@@ -68,18 +68,6 @@ def general():
 
     return render_template('general.html', pitch=pitch, title='General Pitches', pitches=pitches)
 
-@main.route('/pickuplines')
-@login_required
-def pickuplines():
-
-    '''
-    View page function to display the pick up lines file and its data.
-    '''
-    pitches = Pitch.query.all()
-    pitch = Pitch.query.filter_by(category = 'Pickuplines')
-
-    return render_template('pickuplines.html', pitch=pitch,title='Pick Up Lines', pitches=pitches)
-
 
 
 @main.route('/career')
@@ -102,11 +90,9 @@ def business():
     View page function to display business pitches
     '''
     pitches = Pitch.query.all()
-    pitch = Pitch.query.filter_by(category='business').all()
+    pitch = Pitch.query.filter_by(category='Business').all()
 
     return render_template('business.html',title = 'Business Pitches', pitch= pitch, pitches=pitches )
-
-
 
 
 @main.route('/pitch/new',methods=['GET', 'POST'])
@@ -123,3 +109,25 @@ def pitch():
         flash('New Pitch created successfully!','success')
         return redirect(url_for('main.index'))
     return render_template("pitch.html", title='New Pitch', form=form)
+
+
+
+@main.route('/comment/<int:pitch_id>',methods = ['POST','GET'])
+@login_required
+def comment(pitch_id):
+
+    pitch=Pitch.query.get_or_404(pitch_id)
+
+    form = CommentForm()
+    
+    allComments = Comment.query.filter_by(pitch_id = pitch_id).all()
+    if form.validate_on_submit():
+        newComment = Comment(comment=form.comment.data,user_id = current_user.id, pitch_id = pitch_id)
+        pitch_id = pitch_id
+        db.session.add(newComment)
+        db.session.commit()
+        flash('Thank you for the feedback')
+        
+        return redirect(url_for('main.comment',pitch_id=pitch_id))
+
+    return render_template("comment.html",pitch=pitch, title='Feedback', form = form,allComments=allComments)
