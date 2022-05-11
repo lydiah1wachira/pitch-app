@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to OneMInute pitch
+You have succesfully signed up to OneMInute pitch, where 60 seconds can change your life. Please enjoy all the different categories of pitches and feel free to add your own.
