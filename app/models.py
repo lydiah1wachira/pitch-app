@@ -32,6 +32,10 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
+
+    def __repr__(self):
+        return f'User {self.username}'
+
     
 class Pitch(db.Model):
     __tablename__ = 'pitches'
@@ -49,12 +53,20 @@ def __repr__(self):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) #Id of the user
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
     comment = db.Column(db.String(100))
 
-
-
-
 def __repr__(self):
-    return f'User({self.comment})'    
+    return f'User({self.comment})' 
+
+class Upvote(db.model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
+    pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
+     
+class Downvote(db.Mode):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) 
+    pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
+   

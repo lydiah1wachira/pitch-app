@@ -56,7 +56,7 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 
-@main.route('/general' ,methods= ['POST'])
+@main.route('/general')
 @login_required
 def general():
     '''
