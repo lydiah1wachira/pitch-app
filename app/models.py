@@ -17,7 +17,7 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    password = db.Column(db.String(255))
+    pass_secure = db.Column(db.String(255))
     pitches = db.relationship('Pitch', backref='author',lazy=True)
 
     @property

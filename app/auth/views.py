@@ -7,7 +7,7 @@ from .. import db
 from ..email import mail_message
 
 
-@auth.route('/login')
+@auth.route('/login',methods=['GET','POST'])
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
