@@ -6,6 +6,7 @@ class Config:
   '''
   SECRET_KEY = '1b@.]NNXr;N$j=brBcNrj#BXMZb$|S'
   SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
+  UPLOADED_PHOTOS_DEST ='app/static/photos'
 
 
   @staticmethod
