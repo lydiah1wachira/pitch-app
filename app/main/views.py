@@ -1,9 +1,9 @@
 from pickletools import read_unicodestringnl
-from flask import render_template,request,redirect,url_for,abort
+from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
 from flask_login import login_required, current_user
 from ..models import User, Pitch,Comment,Upvote, Downvote
-from .forms import UpdateProfile
+from .forms import UpdateProfile,PitchForm,CommentForm
 from .. import db,photos
 
 @main.route('/')
@@ -80,6 +80,8 @@ def pickuplines():
 
     return render_template('pickuplines.html', pitch=pitch,title='Pick Up Lines', pitches=pitches)
 
+
+
 @main.route('/career')
 @login_required
 def career():
@@ -90,6 +92,8 @@ def career():
     pitch = Pitch.query.filter_by(category='Career').all()
 
     return render_template('career.html', pitch=pitch, title='Career Pitches', pitches=pitches)
+
+
 
 @main.route('/business')
 @login_required
@@ -102,3 +106,20 @@ def business():
 
     return render_template('business.html',title = 'Business Pitches', pitch= pitch, pitches=pitches )
 
+
+
+
+@main.route('/pitch/new',methods=['GET', 'POST'])
+@login_required
+def pitch():
+    '''
+    View page function to display new pitch objects
+    '''
+    form = PitchForm()
+    if form.validate_on_submit():
+        pitch=Pitch(category=form.category.data, content=form.content.data, author=current_user)
+        db.session.add(pitch)
+        db.session.commit()
+        flash('New Pitch created successfully!','success')
+        return redirect(url_for('main.index'))
+    return render_template("pitch.html", title='New Pitch', form=form)
