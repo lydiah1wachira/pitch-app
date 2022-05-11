@@ -42,9 +42,19 @@ class Pitch(db.Model):
     category = db.Column(db.String(255), index = True,nullable = False)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
 
-    def __repr__(self):
+def __repr__(self):
       return f"User({self.content},{self.datePosted})"
 
 
 
-    
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False) #Id of the user
+    pitch_id = db.Column(db.Integer, db.ForeignKey('pitch.id'),nullable=False)
+    comment = db.Column(db.String(100))
+
+
+
+
+def __repr__(self):
+    return f'User({self.comment})'    
