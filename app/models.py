@@ -44,5 +44,9 @@ class Pitch(db.Model):
     category = db.Column(db.String(255), index = True,nullable = False)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
 
+    def __repr__(self):
+      return f"User({self.content},{self.datePosted})"
+
+
 
     
