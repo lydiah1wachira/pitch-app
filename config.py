@@ -7,9 +7,8 @@ class Config:
   General configuration parent class
   '''
   SECRET_KEY = 'k9YIw3u'
-  DATABASE_URL = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
+  SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
   UPLOADED_PHOTOS_DEST ='app/static/photos'
-  SQLALCHEMY_DATABASE_URI = DATABASE_URL.replace("://", "ql://", 1)
   SQLALCHEMY_TRACK_MODIFICATIONS=True
 
   #  email configurations
@@ -32,7 +31,9 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+
+DEBUG = True
 
 class DevConfig(Config):
     '''
@@ -41,8 +42,9 @@ class DevConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-
-    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
+    
+DEBUG = True
 
 config_options = {
     'development':DevConfig,
