@@ -1,11 +1,13 @@
-import os 
+import os
+
+from instance.config import DATABASE_URL 
 
 class Config:
   '''
   General configuration parent class
   '''
   SECRET_KEY = 'k9YIw3u'
-  SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
+  DATABASE_URL = 'postgresql+psycopg2://wachira:Lydiah007@localhost/pitches'
   UPLOADED_PHOTOS_DEST ='app/static/photos'
   SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
   SQLALCHEMY_TRACK_MODIFICATIONS=True
