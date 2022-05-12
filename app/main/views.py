@@ -1,4 +1,4 @@
-from pickletools import read_unicodestringnl
+import os
 from flask import render_template,request,redirect,url_for,abort,flash
 from . import main
 from flask_login import login_required, current_user
@@ -119,7 +119,7 @@ def comment(pitch_id):
     pitch=Pitch.query.get_or_404(pitch_id)
 
     form = CommentForm()
-    
+
     allComments = Comment.query.filter_by(pitch_id = pitch_id).all()
     if form.validate_on_submit():
         newComment = Comment(comment=form.comment.data,user_id = current_user.id, pitch_id = pitch_id)
@@ -131,3 +131,42 @@ def comment(pitch_id):
         return redirect(url_for('main.comment',pitch_id=pitch_id))
 
     return render_template("comment.html",pitch=pitch, title='Feedback', form = form,allComments=allComments)
+
+
+@main.route('/upvote/<pitch_id>/',methods = ['GET'])
+@login_required
+def upvote(pitch_id):
+    pitch = Pitch.query.filter_by(id=pitch_id)
+    upvote = Upvote.query.filter_by(author= current_user.id, pitch_id=pitch_id).first()
+    downvote = Downvote.query.filter_by(author= current_user.id, pitch_id=pitch_id).first()
+
+    if not pitch:
+        flash('Pitch not found',category='error')
+    elif downvote:
+        return redirect(url_for('main.index', pitch_id=pitch_id))
+    else:
+        upvote= Upvote(author=current_user.id, pitch_id=pitch_id)
+        db.session.add(upvote)
+        db.session.commit()
+
+    return redirect(url_for('main.index'))
+
+
+@main.route('/downvote/<pitch_id>/',methods = ['GET'])
+@login_required
+def downvote(pitch_id):
+    pitch = Pitch.query.filter_by(id=pitch_id)
+    downvote = Downvote.query.filter_by(author= current_user.id, pitch_id=pitch_id).first()
+    l = Downvote.query.filter_by(author= current_user.id, pitch_id=pitch_id).first()
+    
+    if not pitch:
+        flash('Pitch not found',category='error')
+    elif downvote:
+        return redirect(url_for('main.index', pitch_id=pitch_id))
+    else:
+      
+        downvote = Downvote(author=current_user.id, pitch_id=pitch_id)
+        db.session.add(downvote)
+        db.session.commit()
+
+    return redirect(url_for('main.index'))
