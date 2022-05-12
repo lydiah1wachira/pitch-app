@@ -1,15 +1,19 @@
 {% extends 'base.html'%}
+  {% block styles %}
+  {{ super() }}
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  {% endblock %}
 
   {% block content %}
   <div class="container">
     <div class="row">
       <h2>Career Pitches</h2>
-      {% for career in pitches%}
+      {% for pitch in pitches%}
       
       <div class="col-md-3" style="padding-top: 5%;">
         <div class="card" style="background: rgba(140, 189, 190, 0.2);">
           <div class="card text-white border-success bg-light mb-3" style="border:none;box-shadow: rgba(59, 25, 63, 0.2) 0px 8px 24px;border-radius: 5px;">
-            <div class="card-header" style="font-size: large">Category: {{ pitch.category }}</div>
+            <div class="card-header" style="font-size: large">Category: Career</div>
             <div class="card-body">
               <h4 class="card-title">By: {{ pitch.author.username }}</h4>
               <p class="card-text" style="font-size:large">{{ pitch.content }}</p>
